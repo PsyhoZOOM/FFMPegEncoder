@@ -1,0 +1,40 @@
+        'child_routes'  => [
+                            'addstream' => [
+                                'type'  => Segment::class,
+                                'options' => [
+                                    'route'     =>  '/addstream',
+                                    'defaults'  => [
+                                        'controller'    => Controller\StreamOutController::class,
+                                        'action'        => 'editstreamout',
+                                    ],
+                                ],
+                            ],
+                            'editstream' => [
+                                'type'      => Segment::class,
+                                'options'   => [
+                                    'route'     => '/editstream[/:id]',
+                                    'constrains'    => [
+                                        'id'        =>  '[0-9]',
+                                        'streamid'  =>  '[0-9]',
+                                    ],
+                                    'defaults'  => [
+                                        'controller' => Controller\StreamOutController::class,
+                                        'action'    => 'editstreamout',
+                                    ],
+                                ],
+                            ],
+                            'deletestream'  => [
+                                'type' => Segment::class,
+                                'options'   => [
+                                    'route'         =>  '/deletestream[/:id[/:streamid]]',
+                                    'constrains'    => [
+                                        'id'        =>  '[0-9]',
+                                        'streamid'  =>  '[0-9]',
+                                    ],
+                                    'defaults'  => [
+                                        'controller' => Controller\StreamOutController::class,
+                                        'action'     => 'deletestreamout',
+                                    ],
+                                ],
+                            ],
+                        ],

@@ -1,0 +1,54 @@
+<?php 
+$title = "Add new Stream";
+$this->headTitle($title);
+?>
+
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<?php 
+$stream = $form->get('name');
+$stream->setAttribute('class', 'form-control');
+$stream->setAttribute('placeholder', 'Stream name');
+
+$source = $form->get('src');
+$source->setAttribute('class', 'form-control');
+$source->setAttribute('placeholder', 'Source');
+
+$desc = $form->get('desc');
+$desc->setAttribute('class', 'form-control');
+$desc->setAttribute('placeholder', 'Description');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->setAttribute('action', $this->url('ffmpeg', ['action' => 'addstream']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+<div class="form-group">
+    <?= $this->formLabel($stream) ?>
+    <?= $this->formElement($stream) ?>
+    <?= $this->formElementErrors()->render($stream,['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($source) ?>
+    <?= $this->formElement($source) ?>
+    <?= $this->formElementErrors()->render($stream, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($desc) ?>
+    <?= $this->formElement($desc) ?>
+    <?= $this->formElementErrors()->render($stream, ['class' => 'help-block']) ?>
+</div>
+
+
+<?php
+
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+?>

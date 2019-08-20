@@ -1,0 +1,147 @@
+<?php
+
+//source stream id 
+
+
+$title = "Add Stream Out";
+$this->headTitle($title);
+
+echo '<h1>'.$this->escapeHtml($title).'</h1>';
+
+
+$dst = $form->get('dst');
+$dst->setAttribute('class', 'form-control');
+$dst->setAttribute('placeholder', 'Destination address');
+
+$vcodec = $form->get('vcodec');
+$vcodec->setAttribute('class', 'form-control');
+$vcodec->setAttribute('id', 'vcodec');
+$vcodec->setAttribute('placeholder', 'Video Codec');
+
+$acodec = $form->get('acodec');
+$acodec->setAttribute('class', 'form-control');
+$acodec->setAttribute('placeholder', 'Audio Codec');
+
+$scodec = $form->get('scodec');
+$scodec->setAttribute('class', 'form-control');
+$scodec->setAttribute('placeholder', 'Subtitle Codec');
+
+$vbitrate = $form->get('vbitrate');
+$vbitrate->setAttribute('class', 'form-control');
+$vbitrate->setAttribute('placeholder', 'Video Bit Rate');
+
+$abitrate = $form->get('abitrate');
+$abitrate->setAttribute('class', 'form-control');
+$abitrate->setAttribute('placeholder', 'Audio Bit Rate');
+
+$minrate = $form->get('minrate');
+$minrate->setAttribute('class', 'form-control');
+$minrate->setAttribute('placeholder', 'Minimum Bit Rate');
+
+$maxrate = $form->get('maxrate');
+$maxrate->setAttribute('class', 'form-control');
+$maxrate->setAttribute('placeholder', 'Maximum Bit Rate');
+
+$muxrate = $form->get('muxrate');
+$muxrate->setAttribute('class', 'form-control');
+$muxrate->setAttribute('placeholder', 'Maximum Rate');
+
+$format = $form->get('format');
+$format->setAttribute('class', 'form-control');
+$format->setAttribute('placeholder', 'Destination Format');
+
+$scale = $form->get('scale');
+$scale->setAttribute('class', 'form-control');
+$scale->setAttribute('placeholder', 'Video Scale');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+
+$form->setAttribute('action', $this->url('ffmpeg/streamout/addstreamout',['action' => 'addstreamout', 'id'=>$form->get('id')->getValue()]));
+$form->prepare();
+
+
+
+echo $this->form()->openTag($form);
+?>
+
+
+<div class="form-group">
+    <?= $this->formLabel($dst) ?>
+    <?= $this->formElement($dst) ?>
+    <?= $this->formElementErrors()->render($dst, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($vcodec) ?>
+    <?= $this->formElement($vcodec) ?>
+    <?= $this->formElementErrors()->render($vcodec, ['class' => 'help-block']); ?>
+</div>
+
+
+<div class="form-group">
+    <?= $this->formLabel($acodec) ?>
+    <?= $this->formElement($acodec) ?>
+    <?= $this->formElementErrors()->render($acodec, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($scodec) ?>
+    <?= $this->formElement($scodec) ?>
+    <?= $this->formElementErrors()->render($scodec, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($vbitrate) ?>
+    <?= $this->formElement($vbitrate) ?>
+    <?= $this->formElementErrors()->render($vbitrate, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($abitrate) ?>
+    <?= $this->formElement($abitrate) ?>
+    <?= $this->formElementErrors()->render($abitrate, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($minrate) ?>
+    <?= $this->formElement($minrate) ?>
+    <?= $this->formElementErrors()->render($minrate, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($maxrate) ?>
+    <?= $this->formElement($maxrate) ?>
+    <?= $this->formElementErrors()->render($maxrate, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($muxrate) ?>
+    <?= $this->formElement($muxrate) ?>
+    <?= $this->formElementErrors()->render($muxrate, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($format) ?>
+    <?= $this->formElement($format) ?>
+    <?= $this->formElementErrors()->render($format, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($scale) ?>
+    <?= $this->formElement($scale) ?>
+    <?= $this->formElementErrors()->render($scale, ['class' => 'help-block']); ?>
+</div>
+
+
+
+
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->formHidden($form->get('streamID'));
+echo $this->form()->closeTag();
+
+?>

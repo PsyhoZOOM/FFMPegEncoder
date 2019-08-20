@@ -1,0 +1,29 @@
+<?php ?>
+<?php
+$title = "FFMpeg Encoder";
+$this->headTitle($title);
+?>
+
+<p>
+    <a href="<?= $this->url('ffmpeg/streamout/addstreamout', ['action'=> 'addstreamout', 'id'=> $streamid] ) ?>">Add new Stream Out </a>
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>dst</th>
+        <th>StreamID</th>
+    </tr>
+    <?php foreach ($tableData as $data) :  ?>
+    <tr>
+        <td><?= $this->escapeHtml($data->id);?> </td>
+        <td><?= $this->escapeHtml($data->dst);?> </td>
+        <td><?= $this->escapeHtml($data->streamID);?> </td>
+        <td>
+           <a href="<?= $this->url('ffmpeg/streamout/editstreamout', ['action' => 'editstreamout', 'id'=>$data->id]) ?>">Edit</a>
+            <a href="<?= $this->url('ffmpeg/streamout/deletestreamout', ['action' => 'deletestreamout', 'id' => $data->id]) ?>">Delete</a>
+        </td>
+    </tr>
+    <?php endforeach ?>
+</table>

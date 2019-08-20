@@ -1,0 +1,66 @@
+<?php
+$title = "Edit stream";
+$this->headTitle($title);
+?>
+
+
+<h1><?= $this->escapeHtml($title) ?> </h1>
+
+<?php
+
+
+$name = $form->get('name');
+$name->setAttribute('class', 'form-control');
+$name->setAttribute('placeholder', 'Stream name');
+
+$src = $form->get('src');
+$src->setAttribute('class', 'form-control');
+$src->setAttribute('placeholder', 'Stream Source');
+
+$desc = $form->get('desc');
+$desc->setAttribute('class', 'form-control');
+$desc->setAttribute('placeholder', 'Description');
+
+$submit = $form->get('submit');
+$submit->setAttribute('action', 'editStream');
+$submit->setAttribute('id', $id);
+
+$form->setAttribute(
+    'action',
+    $this->url(
+        'ffmpeg',
+        [
+            'action'    => 'editStream',
+            'id'        => $id
+        ]
+    )
+);
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+<div class="form-group">
+    <?= $this->formLabel($name); ?>
+    <?= $this->formElement($name); ?>
+    <?= $this->formElementErrors()->render($name, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($src); ?>
+    <?= $this->formElement($src); ?>
+    <?= $this->formElementErrors()->render($src, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($desc); ?>
+    <?= $this->formElement($desc); ?>
+    <?= $this->formElementErrors()->render($src, ['class' => 'help-block']); ?>
+</div>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+?>
