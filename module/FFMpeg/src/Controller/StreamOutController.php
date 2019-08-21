@@ -5,7 +5,6 @@ namespace FFMpeg\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use FFMpeg\Model\StreamOutTable;
-use PHPUnit\Framework\MockObject\Stub\Exception;
 use FFMpeg\Form\AddStreamOutForm;
 use FFMpeg\Model\StreamsOut;
 use FFMpeg\Lib\FFMpeg\FFMpegFunctions;
@@ -19,7 +18,7 @@ class StreamOutController extends AbstractActionController
         $this->table = $table;
     }
 
-    public function ShowStreamsAction()
+    public function ShowStreamsAction() 
     {
         $id = (int)  $this->params()->fromRoute('id', 0);
         if(!$id){

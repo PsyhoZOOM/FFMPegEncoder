@@ -19,6 +19,7 @@ class Streams implements InputFilterAwareInterface
     public $desc;
     public $enc_status;
     public $outstreams;
+    public $path;
 
     private $inputFilter;
 
@@ -30,6 +31,7 @@ class Streams implements InputFilterAwareInterface
         $this->desc = (!empty($data['desc'])) ? $data['desc'] : null;
         $this->enc_status =  (!empty($data['enc_status'])) ? $data['enc_status'] : false;
         $this->streamouts = (!empty($data['outstreams'])) ? $data['outstreams'] : 0;
+        $this->path = (!empty($data['path'])) ? $data['path'] : '';
     }
 
     public function getArrayCopy()
@@ -41,6 +43,7 @@ class Streams implements InputFilterAwareInterface
             'desc'       => $this->desc,
             'enc_status' => $this->enc_status,
             'outstreams' => $this->outstreams,
+            'path'      => $this->path
 
         ];
     }

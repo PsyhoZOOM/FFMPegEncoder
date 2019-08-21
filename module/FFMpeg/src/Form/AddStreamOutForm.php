@@ -4,7 +4,6 @@ namespace FFMpeg\Form;
 
 use Zend\Form\Form;
 
-
 class AddStreamOutForm extends Form
 {
     private $vcodecs;
@@ -30,13 +29,13 @@ class AddStreamOutForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Destination URL',
-              
+
             ],
         ]);
 
         $this->add([
             'name' => 'vcodec',
-            'id'    => 'vcodec',
+            'id' => 'vcodec',
             'type' => 'select',
             'options' => [
                 'label' => 'Video Codec',
@@ -50,7 +49,6 @@ class AddStreamOutForm extends Form
                 'label' => 'Audio Codec',
             ],
         ]);
-
 
         $this->add([
             'name' => 'scodec',
@@ -92,7 +90,6 @@ class AddStreamOutForm extends Form
             ],
         ]);
 
-
         $this->add([
             'name' => 'muxrate',
             'type' => 'text',
@@ -121,9 +118,9 @@ class AddStreamOutForm extends Form
             'name' => 'submit',
             'type' => 'submit',
             [
-                'attributes'    => [
-                    'value'     => "Save",
-                    'id'        => 'submitbutton',
+                'attributes' => [
+                    'value' => "Save",
+                    'id' => 'submitbutton',
                 ],
             ],
         ]);
@@ -131,7 +128,7 @@ class AddStreamOutForm extends Form
 
     /**
      * Get the value of vcodecs
-     */ 
+     */
     public function getVcodecs()
     {
         return $this->vcodecs;
@@ -141,7 +138,7 @@ class AddStreamOutForm extends Form
      * Set the value of vcodecs
      *
      * @return  self
-     */ 
+     */
     public function setVcodecs($vcodecs)
     {
         $this->vcodecs = $vcodecs;
@@ -151,7 +148,7 @@ class AddStreamOutForm extends Form
 
     /**
      * Get the value of acodecs
-     */ 
+     */
     public function getAcodecs()
     {
         return $this->acodecs;
@@ -161,7 +158,7 @@ class AddStreamOutForm extends Form
      * Set the value of acodecs
      *
      * @return  self
-     */ 
+     */
     public function setAcodecs($acodecs)
     {
         $this->acodecs = $acodecs;
@@ -172,7 +169,7 @@ class AddStreamOutForm extends Form
 
     /**
      * Get the value of scodecs
-     */ 
+     */
     public function getScodecs()
     {
         return $this->scodecs;
@@ -182,7 +179,7 @@ class AddStreamOutForm extends Form
      * Set the value of scodecs
      *
      * @return  self
-     */ 
+     */
     public function setScodecs($scodecs)
     {
         $this->scodecs = $scodecs;
@@ -191,5 +188,3 @@ class AddStreamOutForm extends Form
         return $this;
     }
 }
-
-
