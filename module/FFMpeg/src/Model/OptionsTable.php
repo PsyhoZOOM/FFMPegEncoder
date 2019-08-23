@@ -26,7 +26,7 @@ class OptionsTable
             'remote'            => $options->remote,
             'remoteAddress'     => $options->remoteAddress,
             'remotePort'        => $options->remotePort,
-            'remoteUset'        => $options->remoteUser,
+            'remoteUser'        => $options->remoteUser,
             'remotePass'        => $options->remotePass,
         ];
 
@@ -37,9 +37,9 @@ class OptionsTable
         }
 
         try{
-            $this->getOptions($id);
+            $this->fetchAll();
         }catch (RuntimeException $e){
-            throw new RuntimeException(sprintf('Cannaot Update Options with ID: %d; does not exist', $id));
+            throw new RuntimeException(sprintf('Cannot Update Options with ID: %d; does not exist', $id));
         }
 
         $this->tableGateway->update($data, ['id' => $id]);

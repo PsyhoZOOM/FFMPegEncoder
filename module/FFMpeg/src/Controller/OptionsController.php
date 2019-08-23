@@ -4,6 +4,7 @@ namespace FFMpeg\Controller;
 
 use FFMpeg\Model\OptionsTable;
 use Zend\Mvc\Controller\AbstractActionController;
+use FFMpeg\Form\OptionsForm;
 
 class OptionsController extends AbstractActionController
 {
@@ -16,6 +17,16 @@ class OptionsController extends AbstractActionController
 
 
  public function showOptionsAction(){
+     $options = $this->table->fetchAll();
+
+     $form = new OptionsForm(null);
+     $form->bind($options);
+
+     $request = $this->getRequest();
+
+     $if(!$request->isPost()){
+
+     }
 
  }   
 }

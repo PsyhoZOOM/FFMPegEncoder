@@ -3,8 +3,6 @@
 namespace FFMpeg;
 
 use Zend\Router\Http\Segment;
-use Zend\Mvc\Controller\ControllerManager;
-use Zend\Router\Http\Literal;
 use Zend\Router\Http\TreeRouteStack;
 
 return [
@@ -35,10 +33,11 @@ return [
     'router' => [
         'router_class'  => TreeRouteStack::class,
         'routes' => [
+         
             'ffmpeg' => [
                 'type' => Segment::class,
                 'options' => [
-                    'route'         => '/ffmpeg[/:action]',
+                    'route'         => '/ffmpeg/[:action[/:id]]',
                     'constrains'    => [
                         'action'        => '[a-zA-Z][A-Z0-9_-]*',
                         'id'       => '[0-9]*',
@@ -46,6 +45,7 @@ return [
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'    => 'index',
+                        'id'        => '0',
                     ],
                 ],
                 'may_terminate' => true,
@@ -67,7 +67,7 @@ return [
                     'options' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/options',
+                            'route' => '/[:action]',
                             'defaults'  => [
                                 'controller' => Controller\OptionsController::class,
                                 'action'    => 'showoptions',
