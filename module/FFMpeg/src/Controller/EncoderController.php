@@ -26,9 +26,6 @@ class EncoderController extends AbstractActionController
     {
 
 
-        if(!$this->getRequest()->isPost()){
-            return $this->redirect()->toRoute('ffmpeg');
-        }
 
 
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -66,7 +63,7 @@ class EncoderController extends AbstractActionController
         $cwd = getcwd();
         mkdir($dir, 0777, true, null);
 
-        $cmdLine = "ffmpeg -i ";
+        $cmdLine = "ffmpeg -loglevel quiet -progress - -i ";
         $cmd = "";
 
         //prepare input

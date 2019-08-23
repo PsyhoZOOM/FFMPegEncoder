@@ -86,7 +86,7 @@ class AddStreamOutForm extends Form
             'name' => 'maxrate',
             'type' => 'text',
             'options' => [
-                'label' => 'Maximum birtate/k',
+                'label' => 'Maximum bitrate/k',
             ],
         ]);
 

@@ -27,13 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "FFMpeg\\": "module/FFMpeg/src/",
-            "Application\\": "module/Application/src/"
+            "FFMpeg\\": "module/FFMpeg/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ApplicationTest\\": "module/Application/test/"
+            "FFMpeg\\": "module/FFMpeg/src/"
         }
     },
     "extra": [],

@@ -31,7 +31,7 @@
 
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -39,25 +39,26 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="<?= $this->url('ffmpeg') ?>">
-                    <img src="<?= $this->basePath('img/logo.jpg') ?>" height="28" alt="Zend Framework <?= \Application\Module::VERSION ?>" />&nbsp;FFMpeg Encoder
+                    <img src="<?= $this->basePath('img/logo.jpg') ?>" height="28"
+                        alt="Zend Framework <?= \FFMpeg\Module::VERSION ?>" />&nbsp;FFMpeg Encoder
                 </a>
             </div>
-        <div class="collapse navbar-collapse">
-            <?php // update to: ?>
-            <?= $this->navigation('navigation')
+            <div class="collapse navbar-collapse">
+                <?php // update to: ?>
+                <?= $this->navigation('navigation')
                 ->menu()
                 ->setMinDepth(0)
                 ->setMaxDepth(0)
                 ->setUlClass('nav navbar-nav') ?>
-        </div>
-        
+            </div>
+
     </nav>
     <div class="container">
-            <?php ?>
-            <?= $this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
+        <?php ?>
+        <?= $this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
 
-            <?= $this->content ?>
-        </div>
+        <?= $this->content ?>
+    </div>
 </body>
 
 </html>

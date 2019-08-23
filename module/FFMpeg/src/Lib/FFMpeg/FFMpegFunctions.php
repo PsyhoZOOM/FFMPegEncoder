@@ -199,6 +199,7 @@ class FFMpegFunctions
         //We need to extract only name of encoder and their corresponding encoders (sub encoders)
         //set default to copy (no encoding needed)
         $sencArray = array($default => $default);
+        $sencArray[''] = 'None';
         $sencArray['copy'] = 'copy';
         $venc = $this->getSupportedCodecs();
 

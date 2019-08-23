@@ -25,6 +25,11 @@ return [
                     $container->get(Model\StreamTable::class), $container->get(Model\StreamOutTable::class)
                 );
             },
+            Controller\OptionsController::class => function ($container) {
+                return new Controller\OptionsController(
+                    $container->get(Model\OptionsTable::class)
+                );
+            },
         ]
     ],
     'router' => [
@@ -33,7 +38,7 @@ return [
             'ffmpeg' => [
                 'type' => Segment::class,
                 'options' => [
-                    'route'         => '/ffmpeg[/:action[/:id]]',
+                    'route'         => '/ffmpeg[/:action]',
                     'constrains'    => [
                         'action'        => '[a-zA-Z][A-Z0-9_-]*',
                         'id'       => '[0-9]*',
@@ -49,6 +54,7 @@ return [
                         'type' => Segment::class,
                         'options' => [
                             'route'         => '[/:id[/:action]]/encoder',
+                            'verb'          => 'post',
                             'constrains'    => [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
                                 'id'            => '[0-9]*',
@@ -58,10 +64,20 @@ return [
                             ],
                         ],
                     ],
+                    'options' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/options',
+                            'defaults'  => [
+                                'controller' => Controller\OptionsController::class,
+                                'action'    => 'showoptions',
+                            ],
+                        ],
+                    ],
                     'streamout' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route'         => '/',
+                            'route'         => '/streamout[/:id]',
                             'constrains'    =>  [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
                                 'id'       => '[0-9]*',
@@ -161,6 +177,11 @@ return [
                         'label'     => "Delete",
                         'route'     => 'ffmpeg',
                         'action'    => 'deletestream',
+                    ],
+                    [
+                        'label'     => 'Options',
+                        'route'     => 'ffmpeg/options',
+                        'action'    => 'showoptions'
                     ],
                     [
                         'label'     => 'List of Out streams',
