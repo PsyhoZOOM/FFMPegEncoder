@@ -15,12 +15,16 @@ class OptionsTable
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetchAll(){
+    public function fetchAll()
+    {
         $resultSet = $this->tableGateway->select();
-        return $resultSet;
+        $rowset = $resultSet->toArray();
+        $row = $rowset[0];
+        return $row;
     }
 
-    public function saveOptions(Options $options){
+    public function saveOptions(Options $options)
+    {
         $data = [
             'ffmpegPath'        => $options->ffmpegPath,
             'remote'            => $options->remote,
@@ -30,18 +34,11 @@ class OptionsTable
             'remotePass'        => $options->remotePass,
         ];
 
-        $id = (int) $options->id;
 
-        if($id === 0){
-            $this->tableGateway->insert($data);
-        }
+        //Delete all options from table options
+        $this->tableGateway->getAdapter()->query('DELETE FROM ' . $this->tableGateway->getTable())->execute();
 
-        try{
-            $this->fetchAll();
-        }catch (RuntimeException $e){
-            throw new RuntimeException(sprintf('Cannot Update Options with ID: %d; does not exist', $id));
-        }
-
-        $this->tableGateway->update($data, ['id' => $id]);
+        //Insert options in table options
+        $this->tableGateway->insert($data);
     }
 }

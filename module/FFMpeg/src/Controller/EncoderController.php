@@ -43,13 +43,6 @@ class EncoderController extends AbstractActionController
         $ffmpeg = new ffmpegFunctions();
         $vcodecs = $ffmpeg->getVideoEncoders();
 
-        $streams = [$streamFF, $streamFF];
-
-        $view = new ViewModel([
-            'stream' => $streams,
-            'vcodecs' => $vcodecs,
-        ]);
-
         return $this->redirect()->toRoute('ffmpeg');
     }
 
@@ -61,7 +54,7 @@ class EncoderController extends AbstractActionController
 
         $dir = __DIR__ . "/../../../../data/stream/$id";
         $cwd = getcwd();
-        mkdir($dir, 0777, true, null);
+       // mkdir($dir, 0777, true, null);
 
         $cmdLine = "ffmpeg -loglevel quiet -progress - -i ";
         $cmd = "";

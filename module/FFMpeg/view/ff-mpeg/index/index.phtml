@@ -23,7 +23,7 @@ $this->headTitle($title);
         <td><?= $this->escapeHtml($data->id);?> </td>
         <td><?= $this->escapeHtml($data->name);?> </td>
         <td><?= $this->escapeHtml($data->src);?> </td>
-        <td><?= $this->escapeHtml($data->streamouts) ?></td>
+        <td><?= $this->escapeHtml($data->outstreams) ?></td>
         <td><?= $this->escapeHtml($data->desc);?> </td>
         <td>
             <?php if($data->enc_status){ ?>
@@ -33,7 +33,7 @@ $this->headTitle($title);
             <a href="<?= $this->url('ffmpeg/encoder', ['action' => 'startencoding', 'id'=>$data->id]) ?>"> Start
                 encoding </a> |
             <?php } ?>
-            <a href="<?= $this->url('ffmpeg/streamout' , ['action' => 'showstreams', 'id'=>$data->id, 'st'=>22]) ?>">Out
+            <a href="<?= $this->url('ffmpeg/streamout' , ['action' => 'showstreams', 'id'=>$data->id, 'st' =>22]) ?>">Out
                 Streams</a> |
             <a href="<?= $this->url('ffmpeg', ['action' => 'editstream', 'id' => $data->id]) ?>">Edit</a> |
             <a href="<?= $this->url('ffmpeg', ['action' => 'deletestream', 'id' => $data->id]) ?>">Delete</a>

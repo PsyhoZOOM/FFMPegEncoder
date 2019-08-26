@@ -2,10 +2,12 @@
 
 namespace FFMpeg\Model;
 
-use Zend\EventManager\Exception\DomainException;
+use Zend\Filter\StripTags;
+use Zend\Filter\StringTrim;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\Filter\StringTrim;
+use Zend\EventManager\Exception\DomainException;
+use Zend\Validator\StringLength;
 
 class Options implements InputFilterAwareInterface
 {
@@ -20,9 +22,9 @@ class Options implements InputFilterAwareInterface
  private $inputFilter;
 
  public function exchangeArray($data){
-     $this->id = (!empty($data['id'])) ? $data['id'] : null;
+     $this->id = (!empty($data['id'])) ? $data['id'] : 0;
      $this->ffmpegPath = (!empty($data['ffmpegPath'])) ? $data['ffmpegPath'] : null;
-     $this->$remote = (!empty($data['remote'])) ? $data['remote'] : false;
+     $this->remote = (!empty($data['remote'])) ? $data['remote'] : false;
      $this->remoteAddress = (!empty($data['remoteAddress'])) ? $data['remoteAddress'] : null;
      $this->remotePort = (!empty($data['remotePort'])) ? $data['remotePort'] : null;
      $this->remoteUser = (!empty($data['remoteUser'])) ? $data['remoteUser'] : null;
@@ -44,7 +46,7 @@ class Options implements InputFilterAwareInterface
 
  public function setInputFilter(\Zend\InputFilter\InputFilterInterface $inputFilter)
  {
-     throw new DomainException(sprintf("$s does not allow injection of and alternate input filter", __CLASS__));
+     throw new DomainException(sprintf("%s does not allow injection of and alternate input filter", __CLASS__));
  }
 
  public function getInputFilter()
@@ -57,25 +59,27 @@ class Options implements InputFilterAwareInterface
 
      $inputFilter->add([
          'name' => 'ffmpegPath',
-         'required' => 'true',
+         'required' => true,
          'filters' => [
              ['name' => StripTags::class],
              ['name' => StringTrim::class],
          ],
+         'validators' => [
+             [
+             'name'     => StringLength::class,
+             'options'  => [
+                 'encoding' => 'UTF-8',
+                 'min'      => 2,
+                 'max'      => 100,
+             ],
+            ],
+            ],
      ]);
 
+     //TO-DO Implement validators
      $inputFilter->add([
          'name' => 'remote',
          'required' => 'true',
-         'validators' => [
-             [
-                 'name' => InArray::class,
-                 'options' => [
-                     'haystack' => [true, false],
-                 ],
-                ],
-            
-            ],
      ]);
 
      $this->inputFilter = $inputFilter;

@@ -53,7 +53,7 @@ return [
                     'encoder' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route'         => '[/:id[/:action]]/encoder',
+                            'route'         => '/encoder',
                             'verb'          => 'post',
                             'constrains'    => [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
@@ -61,23 +61,23 @@ return [
                             ],
                             'defaults'      => [
                                 'controller'        => Controller\EncoderController::class,
+                                'action'        => 'startEncoding'
                             ],
                         ],
                     ],
                     'options' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/[:action]',
+                            'route' => '/options[/:action]',
                             'defaults'  => [
                                 'controller' => Controller\OptionsController::class,
-                                'action'    => 'showoptions',
                             ],
                         ],
                     ],
                     'streamout' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route'         => '/streamout[/:id]',
+                            'route'         => '/streamout',
                             'constrains'    =>  [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
                                 'id'       => '[0-9]*',
@@ -85,7 +85,7 @@ return [
                             ],
                             'defaults'      => [
                                 'controller'    => Controller\StreamOutController::class,
-                                'action'        => 'showstreams'
+                                'action'        => 'showstreams',
                             ],
                         ],
                         'may_terminate' => true,

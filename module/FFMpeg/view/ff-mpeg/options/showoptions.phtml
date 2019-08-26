@@ -1,4 +1,89 @@
-<?php ?>
+<?php
+
+$title = "OPTIONS";
+$this->headTitle($title);
+
+echo '<h1>' . $this->escapeHtml($title) . '</h1>';
 
 
-OPTIONS
+$path = $form->get('ffmpegPath');
+$path->setAttribute('class', 'form-control');
+$path->setAttribute('placeholder', 'FFMPeg path');
+
+$remote = $form->get('remote');
+$remote->setAttribute('class', 'form-check form-check-inline; form-check-label; form-check-label;');
+$remote->setAttribute('placeholder', 'Remote');
+
+$remoteAddress = $form->get('remoteAddress');
+$remoteAddress->setAttribute('class', 'form-control');
+$remoteAddress->setAttribute('placeholder', 'Remote Host/IP');
+
+$remotePort = $form->get('remotePort');
+$remotePort->setAttribute('class', 'form-control');
+$remotePort->setAttribute('placeholder', 'Remote Port');
+
+$remoteUser = $form->get('remoteUser');
+$remoteUser->setAttribute('class', 'form-control');
+$remoteUser->setAttribute('placeholder', 'Remote Username');
+
+$remotePass = $form->get('remotePass');
+$remotePass->setAttribute('class', 'form-control');
+$remotePass->setAttribute('placeholder', 'Remote Password');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-default');
+
+$form->setAttribute('action', $this->url('ffmpeg/options', ['action' => 'showoptions']));
+
+
+
+$form->setAttribute('class', 'form-group');
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+<div class="form-gorup">
+    <?= $this->formLabel($path) ?>
+    <?= $this->formElement($path) ?>
+    <?= $this->formElementErrors()->render($path, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-check form-check-inline">
+    <?= $this->formLabel($remote) ?>
+    <?= $this->formElement($remote) ?>
+    <?= $this->formElementErrors()->render($remote, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($remoteAddress) ?>
+    <?= $this->formElement($remoteAddress) ?>
+    <?= $this->formElementErrors()->render($remoteAddress, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($remotePort) ?>
+    <?= $this->formElement($remotePort) ?>
+    <?= $this->formElementErrors()->render($remotePort, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($remoteUser) ?>
+    <?= $this->formElement($remoteUser) ?>
+    <?= $this->formElementErrors()->render($remoteUser, ['class' => 'help-block']); ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($remotePass) ?>
+    <?= $this->formElement($remotePass) ?>
+    <?= $this->formElementErrors()->render($remotePass, ['class' => 'help-block']); ?>
+</div>
+
+
+
+<?php
+
+echo $this->formSubmit($submit);
+echo $this->form()->closeTag();
+
+?>

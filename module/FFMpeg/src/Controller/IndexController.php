@@ -77,7 +77,7 @@ class IndexController extends AbstractActionController
         }
 
         $form = new AddStreamForm();
-        $form->bind($stream);
+        $form->bind($stream[0]);
         $form->get('submit')->setAttribute('value', 'Save changes');
 
         $request = $this->getRequest();

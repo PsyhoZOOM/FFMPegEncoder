@@ -30,7 +30,7 @@ class Streams implements InputFilterAwareInterface
         $this->src = (!empty($data['src'])) ? $data['src'] : null;
         $this->desc = (!empty($data['desc'])) ? $data['desc'] : null;
         $this->enc_status =  (!empty($data['enc_status'])) ? $data['enc_status'] : false;
-        $this->streamouts = (!empty($data['outstreams'])) ? $data['outstreams'] : 0;
+        $this->outstreams = (!empty($data['outstreams'])) ? $data['outstreams'] : 0;
         $this->path = (!empty($data['path'])) ? $data['path'] : '';
     }
 
