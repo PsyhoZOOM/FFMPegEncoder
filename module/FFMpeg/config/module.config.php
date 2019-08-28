@@ -15,12 +15,15 @@ return [
             },
             Controller\IndexController::class => function ($container) {
                 return new Controller\IndexController(
-                    $container->get(Model\StreamTable::class), $container->get(Model\StreamOutTable::class)
+                    $container->get(Model\StreamTable::class),
+                    $container->get(Model\StreamOutTable::class)
                 );
             },
             Controller\EncoderController::class => function ($container) {
                 return new Controller\EncoderController(
-                    $container->get(Model\StreamTable::class), $container->get(Model\StreamOutTable::class)
+                    $container->get(Model\StreamTable::class),
+                    $container->get(Model\StreamOutTable::class),
+                    $container->get(Model\OptionsTable::class),
                 );
             },
             Controller\OptionsController::class => function ($container) {
@@ -28,12 +31,13 @@ return [
                     $container->get(Model\OptionsTable::class)
                 );
             },
+
         ]
     ],
     'router' => [
         'router_class'  => TreeRouteStack::class,
         'routes' => [
-         
+
             'ffmpeg' => [
                 'type' => Segment::class,
                 'options' => [
@@ -53,15 +57,13 @@ return [
                     'encoder' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route'         => '/encoder',
-                            'verb'          => 'post',
+                            'route'         => '/encoder[/:action]',
                             'constrains'    => [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
                                 'id'            => '[0-9]*',
                             ],
                             'defaults'      => [
                                 'controller'        => Controller\EncoderController::class,
-                                'action'        => 'startEncoding'
                             ],
                         ],
                     ],
@@ -118,7 +120,7 @@ return [
                                     ],
                                 ],
                             ],
-                             'deletestreamout' => [
+                            'deletestreamout' => [
                                 'type'      => Segment::class,
                                 'options' => [
                                     'route'     => '/deletestreamout[/:id]',
@@ -132,7 +134,7 @@ return [
                                     ],
                                 ],
                             ],
-                            
+
                         ],
                     ],
                 ],
@@ -155,9 +157,9 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
-        
+
     ],
-     'navigation' => [
+    'navigation' => [
         'default' => [
             [
                 'label' => 'FFMpeg',

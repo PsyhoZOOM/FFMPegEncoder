@@ -18,10 +18,10 @@ class StreamOutController extends AbstractActionController
         $this->table = $table;
     }
 
-    public function ShowStreamsAction() 
+    public function ShowStreamsAction()
     {
         $id = (int)  $this->params()->fromRoute('id', 0);
-        if(!$id){
+        if (!$id) {
             return $this->redirect()->toRoute('ffmpeg');
         }
         $view  = new ViewModel(
@@ -40,7 +40,7 @@ class StreamOutController extends AbstractActionController
         $id =  (int) $this->params()->fromRoute('id', 0);
 
         $ffmpeg = new FFMpegFunctions();
-        
+
 
 
         $form = new AddStreamOutForm();
@@ -59,7 +59,7 @@ class StreamOutController extends AbstractActionController
 
 
 
-        if(!$request->isPost()){
+        if (!$request->isPost()) {
             return ['form' => $form];
         }
 
@@ -70,7 +70,7 @@ class StreamOutController extends AbstractActionController
         $form->setInputFilter($streamOut->getInputFilter());
         $form->setData($request->getPost());
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             return ['form' => $form];
         }
 
@@ -78,17 +78,14 @@ class StreamOutController extends AbstractActionController
         $streamOut->exchangeArray($form->getData());
 
         //we need to null id if we wanna to insert new row
-        $streamOut->id=NULL;
+        $streamOut->id = NULL;
 
         //set source id to out stream
-        $streamOut->streamID=$id;
+        $streamOut->streamID = $id;
 
         $this->table->saveStreamOut($streamOut);
 
-        return $this->redirect()->toRoute('ffmpeg/streamout', ['action' => 'showstreams'  ,'id'=> $id]);
-
-
-
+        return $this->redirect()->toRoute('ffmpeg/streamout', ['action' => 'showstreams', 'id' => $id]);
     }
 
     public function editStreamOutAction()
@@ -116,48 +113,48 @@ class StreamOutController extends AbstractActionController
         $form->setScodecs($ffmpeg->getSubtitleEncoders($form->get('scodec')->getValue()));
 
         $request = $this->getRequest();
-        $viewData = ['id'=>$id, 'streamID' => $streamOut->streamID, 'form'=>$form];
+        $viewData = ['id' => $id, 'streamID' => $streamOut->streamID, 'form' => $form];
 
-        if(!$request->isPost()){
+        if (!$request->isPost()) {
             return $viewData;
         }
 
         $form->setInputFilter($streamOut->getInputFilter());
         $form->setData($request->getPost());
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             return $viewData;
         }
 
         $this->table->saveStreamOut($streamOut);
 
-        return $this->redirect()->toRoute('ffmpeg/streamout', ['action' => 'showstreams','id' => $streamOut->streamID]);
-
+        return $this->redirect()->toRoute('ffmpeg/streamout', ['action' => 'showstreams', 'id' => $streamOut->streamID]);
     }
 
-    public function deleteStreamOutAction(){
+    public function deleteStreamOutAction()
+    {
 
         $id = (int) $this->params()->fromRoute('id', 0);
 
-        if(!$id){
+        if (!$id) {
             return $this->redirect()->toRoute('ffmpeg');
         }
 
         $streamOut = $this->table->getStreamOut($id);
         $streamID = $streamOut->streamID;
 
-        if(!$streamID){
+        if (!$streamID) {
             return $this->redirect()->toRoute("ffmpeg");
         }
 
         $request = $this->getRequest();
-        if($request->isPost()){
+        if ($request->isPost()) {
             $del = $request->getPost('del', 'No');
-            if($del == 'Yes'){
+            if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
                 $this->table->deleteStreamOut($id);
             }
-            return $this->redirect()->toRoute('ffmpeg/streamout',[
+            return $this->redirect()->toRoute('ffmpeg/streamout', [
                 'action' => 'showstreams',
                 'id'     =>  $streamID,
             ]);

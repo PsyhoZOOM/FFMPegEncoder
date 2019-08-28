@@ -26,14 +26,14 @@ class OptionsController extends AbstractActionController
             'remote'    => $option['remote'],
             'remoteAddress' => $option['remoteAddress'],
             'remotePort'   => $option['remotePort'],
-            'remoteUser'        =>$option['remoteUser'],
-            'remotePass'        =>$option['remotePass'],
+            'remoteUser'        => $option['remoteUser'],
+            'remotePass'        => $option['remotePass'],
         ];
 
         $optionBind = new Options();
 
 
-        $options= new Options();
+        $options = new Options();
 
         $form = new OptionsForm(null);
         $form->get('submit')->setValue("Save");
@@ -42,15 +42,15 @@ class OptionsController extends AbstractActionController
         $viewData = ['form' => $form];
 
         if (!$request->isPost()) {
-        $optionBind->exchangeArray($excArr);
-        $form->bind($optionBind);
+            $optionBind->exchangeArray($excArr);
+            $form->bind($optionBind);
             return $viewData;
         }
 
         $form->setInputFilter($options->getInputFilter());
         $form->setData($request->getPost());
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             return $viewData;
         }
 
@@ -59,7 +59,5 @@ class OptionsController extends AbstractActionController
         $this->table->saveOptions($options);
 
         return $this->redirect()->toRoute('ffmpeg');
-        
     }
-
 }

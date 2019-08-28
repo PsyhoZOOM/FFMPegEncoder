@@ -2,42 +2,70 @@
 <?php
 $title = "FFMpeg Encoder";
 $this->headTitle($title);
+$this->headScript()->appendFile('https://code.jquery.com/jquery-3.3.1.js');
+$scriptDataTable = <<< EOT
+$(document).ready(function(){
+    alert('hello');
+    $('#streamsTable').DataTable();
+});
+EOT;
 ?>
 
 <p>
-    <a href="<?= $this->url('ffmpeg', ['action'=> 'addstream']) ?>">Add new Stream </a> |
+    <a href="<?= $this->url('ffmpeg', ['action' => 'addstream']) ?>">Add new Stream </a> |
     <a href="<?= $this->url('ffmpeg/options', ['action' => 'showoptions']) ?>"> Options </a>
 </p>
 
+<div class="table-responsive">
+    <table id="streamsTable" class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Source</th>
+                <th>Out Streams</th>
+                <th>Description</th>
+                <th>Commands</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($tableData as $data) :  ?>
+            <!-- if stream is active give a green light -->
+            <tr class="<?php if ($data->enc_status) echo 'success'; ?>">
+                <td><?= $this->escapeHtml($data->id); ?> </td>
+                <td><?= $this->escapeHtml($data->name); ?> </td>
+                <td><?= $this->escapeHtml($data->src); ?> </td>
+                <td><?= $this->escapeHtml($data->outstreams) ?></td>
+                <td><?= $this->escapeHtml($data->desc); ?> </td>
+                <td>
+                    <?php if ($data->enc_status) { ?>
+                    <a href=" <?= $this->url('ffmpeg/encoder', ['action' => 'stopencoding', 'id' => $data->id]) ?>">
+                        Stop
+                        encoding
+                    </a> |
+                    <?php } else { ?>
+                    <a href="<?= $this->url('ffmpeg/encoder', ['action' => 'startencoding', 'id' => $data->id]) ?>">
+                        Start
+                        encoding </a> |
+                    <?php } ?>
+                    <a
+                        href="<?= $this->url('ffmpeg/streamout', ['action' => 'showstreams', 'id' => $data->id, 'st' => 22]) ?>">Out
+                        Streams</a> |
+                    <a href="<?= $this->url('ffmpeg', ['action' => 'editstream', 'id' => $data->id]) ?>">Edit</a> |
+                    <a href="<?= $this->url('ffmpeg', ['action' => 'deletestream', 'id' => $data->id]) ?>">Delete</a>
+                </td>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
 
-<table class="table">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Source</th>
-        <th>Out Streams</th>
-        <th>Description</th>
-    </tr>
-    <?php foreach ($tableData as $data) :  ?>
-    <tr>
-        <td><?= $this->escapeHtml($data->id);?> </td>
-        <td><?= $this->escapeHtml($data->name);?> </td>
-        <td><?= $this->escapeHtml($data->src);?> </td>
-        <td><?= $this->escapeHtml($data->outstreams) ?></td>
-        <td><?= $this->escapeHtml($data->desc);?> </td>
-        <td>
-            <?php if($data->enc_status){ ?>
-            <a href="<?= $this->url('ffmpeg/encoder', ['action' => 'stopencoding' ,'id'=>$data->id]) ?>"> Stop encoding
-            </a> |
-            <?php }else { ?>
-            <a href="<?= $this->url('ffmpeg/encoder', ['action' => 'startencoding', 'id'=>$data->id]) ?>"> Start
-                encoding </a> |
-            <?php } ?>
-            <a href="<?= $this->url('ffmpeg/streamout' , ['action' => 'showstreams', 'id'=>$data->id, 'st' =>22]) ?>">Out
-                Streams</a> |
-            <a href="<?= $this->url('ffmpeg', ['action' => 'editstream', 'id' => $data->id]) ?>">Edit</a> |
-            <a href="<?= $this->url('ffmpeg', ['action' => 'deletestream', 'id' => $data->id]) ?>">Delete</a>
-        </td>
-    </tr>
-    <?php endforeach ?>
-</table>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#streamsTable').DataTable();
+    });
+    </script>
+    <?php
+    $this->inlineScript()->appendScript($scriptDataTable);
+    echo $this->flashMessenger()->render();
+    ?>
+</div>

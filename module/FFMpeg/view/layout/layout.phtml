@@ -23,8 +23,10 @@
 
     <!-- Scripts -->
     <?= $this->headScript()
-        ->prependFile($this->basePath('js/bootstrap.min.js'))
-        ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+        ->appendFile($this->basePath('js/bootstrap.min.js'))
+        ->appendFile('https://code.jquery.com/jquery-3.3.1.js')
+        ->appendFile('https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+        ->appendFile('https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js')
     ?>
 
 </head>

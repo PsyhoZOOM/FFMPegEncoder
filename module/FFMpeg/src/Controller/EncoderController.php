@@ -2,21 +2,22 @@
 
 namespace FFMpeg\Controller;
 
-use FFMpeg\Lib\FFMpeg\FFMpegFunctions;
-use FFMpeg\Lib\FFMpeg\streamFFMpeg;
+use FFMpeg\Lib\FFMpeg\StreamFfmpeg;
 use FFMpeg\Model\StreamOutTable;
 use FFMpeg\Model\StreamTable;
+use FFMpeg\Model\OptionsTable;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
 class EncoderController extends AbstractActionController
 {
     private $streamIn;
     private $streamOut;
-    public function __construct(StreamTable $table, StreamOutTable $tableOut)
+    private $optionsTable;
+    public function __construct(StreamTable $table, StreamOutTable $tableOut, OptionsTable $optionsTable)
     {
         $this->streamIn = $table;
         $this->streamOut = $tableOut;
+        $this->optionsTable = $optionsTable;
     }
 
     public function indexAction()
@@ -32,19 +33,49 @@ class EncoderController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('ffmpeg');
         }
-        $this->createOut($id);
 
-        $streamFF = new streamFFMpeg();
+        //TODO Implement another method for starting stream: 
+        /* 1. Local 
+        *  2. Remote by $id of main Stream
+        *  3. Remote by full command line
+        *
+        *  This must be defined in Options!!!
+        */
 
-        $streamFF->setId(1);
-        $streamFF->setName("name1");
-        $streamFF->setDesc("desc");
+        $cmd = $this->createOut($id);
+        $streamControl =  new StreamFfmpeg($this->optionsTable);
 
-        $ffmpeg = new ffmpegFunctions();
-        $vcodecs = $ffmpeg->getVideoEncoders();
+        //remote by $id
+        $streamControl->startRemoteStream($id);
+
+        //remote full command line
+        //       $streamControl->startRemoteCMD($cmd);
+
+        //Local
+        //       $streamControl->startLocalStream($cmd);
+
+
+
+        $this->flashMessenger()->addMessage($streamControl->getStatus());
+
+
 
         return $this->redirect()->toRoute('ffmpeg');
     }
+
+    public function stopEncodingAction()
+    {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if ($id === 0) {
+            return $this->redirect()->toRoute('ffmpeg');
+        }
+
+        $streamControl = new StreamFfmpeg();
+        $streamControl->stopStream($id);
+
+        return $this->redirect()->toRoute('ffmpeg');
+    }
+
 
     private function createOut($id)
     {
@@ -54,7 +85,7 @@ class EncoderController extends AbstractActionController
 
         $dir = __DIR__ . "/../../../../data/stream/$id";
         $cwd = getcwd();
-       // mkdir($dir, 0777, true, null);
+        // mkdir($dir, 0777, true, null);
 
         $cmdLine = "ffmpeg -loglevel quiet -progress - -i ";
         $cmd = "";
@@ -101,5 +132,6 @@ class EncoderController extends AbstractActionController
         echo $cmd;
 
         $cmdLine = $cmdLine . $input->src . ' ' . $cmd;
+        return $cmdLine;
     }
 }

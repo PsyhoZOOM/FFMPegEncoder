@@ -8,8 +8,6 @@ use FFMpeg\Model\StreamTable;
 use FFMpeg\Form\AddStreamForm;
 use FFMpeg\Model\StreamOutTable;
 use FFMpeg\Model\Streams;
-use PHPUnit\Framework\Exception;
-use Zend\Db\Sql\Select;
 
 class IndexController extends AbstractActionController
 {
@@ -60,44 +58,44 @@ class IndexController extends AbstractActionController
     }
 
 
-    public function editStreamAction(){
+    public function editStreamAction()
+    {
 
         $id = (int) $this->params()->fromRoute('id', 0);
-        
-        if(!$id){
+
+        if (!$id) {
             return $this->redirect()->toRoute("ffmpeg");
         }
 
         $request = $this->getRequest();
 
-        try{
-        $stream = $this->table->getStream($id);
-        }catch(Exception $e){
+        try {
+            $stream = $this->table->getStream($id);
+        } catch (Exception $e) {
             return $this->redirect()->toRoute('ffmpeg', ['action' => 'index']);
         }
 
         $form = new AddStreamForm();
-        $form->bind($stream[0]);
+        $form->bind($stream);
         $form->get('submit')->setAttribute('value', 'Save changes');
 
         $request = $this->getRequest();
-        $viewData = ['id'=>$id, 'form'=>$form];
+        $viewData = ['id' => $id, 'form' => $form];
 
-        if(!$request->isPost()){
+        if (!$request->isPost()) {
             return $viewData;
         }
 
         $form->setInputFilter($stream->getInputFilter());
         $form->setData($request->getPost());
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             return $viewData;
         }
 
         $this->table->saveStream($stream);
 
-        return $this->redirect()->toRoute('ffmpeg', ['action'=>'index']);
-
+        return $this->redirect()->toRoute('ffmpeg', ['action' => 'index']);
     }
 
 
@@ -112,7 +110,7 @@ class IndexController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $del = $request->getPost('del', 'No');
-            if ($del == 'Yes') { 
+            if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
                 $this->table->deleteStream($id);
             }
@@ -126,22 +124,22 @@ class IndexController extends AbstractActionController
     }
 
 
-    private function setNumberOfOutStream(){
+    /**
+     * Set Number of OutStreams in database
+     *
+     * @return ResultSet of StreamTable
+     */
+    private function setNumberOfOutStream()
+    {
         $tableData = $this->table->fetchAll(true);
 
-        foreach($tableData as $key => $data){
-           $numStreams = (int) $this->tableOut->countMainStream($data->id);
-           if($data->outstreams != $numStreams){
-               $this->table->updateOutStream($data->id, $numStreams);
-           }
-           
-         //  $tableData[$key]->outstreams = $numStreams;
+        foreach ($tableData as $key => $data) {
+            $numStreams = (int) $this->tableOut->countMainStream($data->id);
+            if ($data->outstreams != $numStreams) {
+                $this->table->updateOutStream($data->id, $numStreams);
+            }
         }
 
         return $this->table->fetchAll();
-
-        
     }
-
-
 }

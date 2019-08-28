@@ -10,7 +10,7 @@ use Zend\Db\Adapter\Adapter;
 
 class Module implements ConfigProviderInterface
 {
-	const VERSION = '3.0.3-dev';
+    const VERSION = '3.0.3-dev';
     public function getConfig()
     {
         return include __DIR__ . '/../config/module.config.php';
@@ -41,7 +41,7 @@ class Module implements ConfigProviderInterface
                     return new TableGateway('streams', $dbAdapter, null, $resultSetPrototype);
                 },
 
-                Model\OptionsTable::class => function ($container){
+                Model\OptionsTable::class => function ($container) {
                     $optionsGateway = $container->get(Model\OptionsTableGateway::class);
                     return new Model\OptionsTable($optionsGateway);
                 },
@@ -52,6 +52,7 @@ class Module implements ConfigProviderInterface
                     $resultSetPrototype->setArrayObjectPrototype(new Model\Options());
                     return new TableGateway('options', $dbAdapter, null, $resultSetPrototype);
                 }
+
             ],
         ];
     }
