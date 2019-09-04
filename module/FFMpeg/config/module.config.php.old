@@ -49,8 +49,7 @@ return [
                     ],
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'id'        => '0',
-                        'action'    => 'index',
+                        'action'     => 'index',
 
                     ],
                 ],
@@ -63,23 +62,14 @@ return [
                             'defaults'  =>  [
                                 'action'  => 'sysinfo',
                                 'controller' => Controller\StatusController::class,
-                            ],
-                        ],
-                    ],
-                    'getactivestreams' => [
-                        'type'      => Segment::class,
-                        'options'   => [
-                            'route' =>  '/getactivestreams',
-                            'defaults' => [
-                                'action' => 'getactivestreams',
-                                'controller' => Controller\StatusController::class,
+                                'id'    => 0,
                             ],
                         ],
                     ],
                     'encoder' => [
                         'type'      => Segment::class,
                         'options'   => [
-                            'route'         => '/encoder',
+                            'route'         => '/encoder[/:id]',
                             'constrains'    => [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
                                 'id'            => '[0-9]*',
@@ -93,7 +83,7 @@ return [
                     'options' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/options',
+                            'route' => '/options[/:id]',
                             'defaults'  => [
                                 'controller' => Controller\OptionsController::class,
                                 'action'  => 'showoptions',
@@ -103,7 +93,7 @@ return [
                     'streamout' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route'         => '/streamout',
+                            'route'         => '/streamout[/:action]',
                             'constrains'    =>  [
                                 'action'        => '[a-zA-Z][A-Z0-9_-]*',
                                 'id'       => '[0-9]*',
@@ -111,6 +101,7 @@ return [
                             ],
                             'defaults'      => [
                                 'controller'    => Controller\StreamOutController::class,
+                                'action'        => 'showstreams',
                             ],
                         ],
                         'may_terminate' => true,
@@ -125,7 +116,6 @@ return [
                                     ],
                                     'defaults'  => [
                                         'controller' => Controller\StreamOutController::class,
-                                        'action'    => 'editstreamout',
                                     ],
                                 ],
                             ],
@@ -146,7 +136,7 @@ return [
                             'deletestreamout' => [
                                 'type'      => Segment::class,
                                 'options' => [
-                                    'route'     => '/deletestreamout',
+                                    'route'     => '/deletestreamout[/:id]',
                                     'constrains' => [
                                         'action'    => '[a-z]',
                                         'id'        => '[0-9]',
@@ -215,7 +205,7 @@ return [
                         'pages'     => [
                             [
                                 'label'     => 'Edit Stream Out',
-                                'route'     => 'ffmpeg/streamout[/:id]',
+                                'route'     => 'ffmpeg/streamout/editstreamouts[/:id]',
                                 'action'    => 'editstreamout',
                             ],
                         ],

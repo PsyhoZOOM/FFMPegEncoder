@@ -10,10 +10,10 @@ namespace FFMpeg\Lib\FFMpeg;
  *  - Starting from remote server by passing full command line or id of main stream.
  */
 
-class StreamFfmpeg
+class Client
 {
 
-    private $status = false;
+    private $response;
 
 
 
@@ -74,6 +74,14 @@ class StreamFfmpeg
 
     }
 
+    /**
+     * No ned to say much here. Just stop stream.
+     *
+     * @param int $id<p>
+     * id of stream to be stopped.
+     * </p>
+     * @return void
+     */
     public function stopStream($id)
     {
         $arrCMD = [
@@ -84,6 +92,56 @@ class StreamFfmpeg
         $JSON_cmd = json_encode($arrCMD, JSON_UNESCAPED_SLASHES);
         $this->send($JSON_cmd);
     }
+
+    /**
+     * Get info of stream.
+     *
+     * @param int $id
+     * @return String
+     */
+    public function getStreamStatus($id)
+    {
+        $arrCMD = [
+            'action' => 'getinfo',
+            'streamID'     => $id,
+        ];
+
+        $jsonCMD = json_encode($arrCMD, JSON_UNESCAPED_SLASHES);
+
+        send($jsonCMD);
+    }
+
+    /**
+     * Get Resource Info from remote server
+     * (cpu, mem, net..)
+     *
+     * @return void
+     */
+    public function getSystemInfo()
+    {
+        $arrCMD = [
+            'action' => 'getSysInfo',
+        ];
+        $cmd = json_encode($arrCMD);
+
+        $this->send($cmd);
+    }
+
+    /**
+     * Get Active Streams from server
+     *
+     * @return void
+     */
+    public function getActiveStreams()
+    {
+        $arrCMD = [
+            'action' => 'getStatusOfStreams',
+        ];
+
+        $cmd = json_encode($arrCMD);
+        $this->send($cmd);
+    }
+
 
     /**
      * Send JSON object to socket
@@ -98,15 +156,20 @@ class StreamFfmpeg
         //TODO Get parameters from database or arguments
         $address = "127.0.0.1"; //host of remote Server
         $port = 10020; // port of remote Server
-        $socket = fsockopen($address, $port, $errno, $errstr, 5);
+        try {
+            $socket = fsockopen($address, $port, $errno, $errstr, 5);
+        } catch (Exception $e) {
+            print($e);
+        }
+
         fwrite($socket, $JSON_cmd);
         fwrite($socket, "\n");
-        $this->status = fgets($socket, 1024);
+        $this->response = fgets($socket, 1024);
         fclose($socket);
     }
 
-    public function  getStatus()
+    public function  getResponse()
     {
-        return $this->status;
+        return $this->response;
     }
 }

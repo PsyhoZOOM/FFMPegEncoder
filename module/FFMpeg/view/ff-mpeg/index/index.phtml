@@ -13,7 +13,8 @@ EOT;
 
 <p>
     <a href="<?= $this->url('ffmpeg', ['action' => 'addstream']) ?>">Add new Stream </a> |
-    <a href="<?= $this->url('ffmpeg/options', ['action' => 'showoptions']) ?>"> Options </a>
+    <a href="<?= $this->url('ffmpeg/options', ['action' => 'showoptions']) ?>"> Options </a> |
+    <a href="<?= $this->url('ffmpeg/status',) ?>"> Status </a>
 </p>
 
 <div class="table-responsive">
@@ -39,15 +40,17 @@ EOT;
                 <td><?= $this->escapeHtml($data->desc); ?> </td>
                 <td>
                     <?php if ($data->enc_status) { ?>
+                    INFO |
                     <a href=" <?= $this->url('ffmpeg/encoder', ['action' => 'stopencoding', 'id' => $data->id]) ?>">
                         Stop
                         encoding
-                    </a> |
+                    </a>
                     <?php } else { ?>
                     <a href="<?= $this->url('ffmpeg/encoder', ['action' => 'startencoding', 'id' => $data->id]) ?>">
                         Start
-                        encoding </a> |
+                        encoding </a>
                     <?php } ?>
+                    <br>
                     <a
                         href="<?= $this->url('ffmpeg/streamout', ['action' => 'showstreams', 'id' => $data->id, 'st' => 22]) ?>">Out
                         Streams</a> |
@@ -64,8 +67,8 @@ EOT;
         $('#streamsTable').DataTable();
     });
     </script>
-    <?php
-    $this->inlineScript()->appendScript($scriptDataTable);
-    echo $this->flashMessenger()->render();
-    ?>
 </div>
+
+<?php
+$this->inlineScript()->appendScript($scriptDataTable);
+?>

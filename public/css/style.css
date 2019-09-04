@@ -1,6 +1,7 @@
 body {
     padding-top: 60px;
     padding-bottom: 40px;
+    min-height: 100%;
 }
 
 .zf-green {
@@ -30,4 +31,12 @@ div.container a.navbar-brand>img {
     display: inline;
     margin-right: 4px;
     margin-top: -2px;
+}
+
+table.dataTable tbody td {
+    vertical-align: middle;
+}
+
+#sysinfo {
+    color: whitesmoke;
 }

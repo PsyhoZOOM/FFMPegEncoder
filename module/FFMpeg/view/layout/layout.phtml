@@ -27,6 +27,7 @@
         ->appendFile('https://code.jquery.com/jquery-3.3.1.js')
         ->appendFile('https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
         ->appendFile('https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js')
+        ->appendFile($this->basePath('js/status.js'))
     ?>
 
 </head>
@@ -45,6 +46,10 @@
                         alt="Zend Framework <?= \FFMpeg\Module::VERSION ?>" />&nbsp;FFMpeg Encoder
                 </a>
             </div>
+
+
+
+
             <div class="collapse navbar-collapse">
                 <?php // update to: 
                 ?>
@@ -53,15 +58,40 @@
                     ->setMinDepth(0)
                     ->setMaxDepth(0)
                     ->setUlClass('nav navbar-nav') ?>
+                <p id='sysinfo'></p>
             </div>
 
     </nav>
-    <div class="container">
+    <?php
+    $flash = $this->flashMessenger();
+    if ($flash->hasMessages()) {; ?>
+    <?php
+        //       echo $flash->render('info');
+        $flash->setMessageOpenFormat('<div%s>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+        &times;
+    </button>
+    <ul><li>')
+            ->setMessageSeparatorString('</li><li>')
+            ->setMessageCloseString('</li></ul></div>');
+
+        echo $flash->render('error',   array('alert', 'alert-dismissible', 'alert-danger'));
+        echo $flash->render('info',    array('alert', 'alert-dismissible', 'alert-info'));
+        echo $flash->render('default', array('alert', 'alert-dismissible', 'alert-warning'));
+        echo $flash->render('success', array('alert', 'alert-dismissible', 'alert-success'));
+    }
+    ?>
+
+    <div class="container fill">
         <?php ?>
         <?= $this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setPartial('partial/breadcrumb') ?>
 
         <?= $this->content ?>
+
+
     </div>
+
+
 </body>
 
 </html>

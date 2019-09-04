@@ -2,7 +2,7 @@
 
 namespace FFMpeg\Controller;
 
-use FFMpeg\Lib\FFMpeg\StreamFfmpeg;
+use FFMpeg\Lib\FFMpeg\Client;
 use FFMpeg\Model\StreamOutTable;
 use FFMpeg\Model\StreamTable;
 use FFMpeg\Model\OptionsTable;
@@ -43,7 +43,7 @@ class EncoderController extends AbstractActionController
         */
 
         $cmd = $this->createOut($id);
-        $streamControl =  new StreamFfmpeg($this->optionsTable);
+        $streamControl =  new Client($this->optionsTable);
 
         //remote by $id
         $streamControl->startRemoteStream($id);
@@ -56,7 +56,9 @@ class EncoderController extends AbstractActionController
 
 
 
-        $this->flashMessenger()->addMessage($streamControl->getStatus());
+        $message =  json_decode($streamControl->getResponse());
+
+        $this->flashMessenger()->addMessage($message->{'MSG'});
 
 
 
@@ -70,18 +72,23 @@ class EncoderController extends AbstractActionController
             return $this->redirect()->toRoute('ffmpeg');
         }
 
-        $streamControl = new StreamFfmpeg();
+        $streamControl = new Client();
         $streamControl->stopStream($id);
+
+        $message = json_decode($streamControl->getResponse());
+
+        $this->flashMessenger()->addMessage($message->{'MSG'});
 
         return $this->redirect()->toRoute('ffmpeg');
     }
 
-
     private function createOut($id)
     {
+        /* ?????
         if ($id == null) {
             $id = 7;
         }
+        */
 
         $dir = __DIR__ . "/../../../../data/stream/$id";
         $cwd = getcwd();
@@ -128,8 +135,6 @@ class EncoderController extends AbstractActionController
             $cmd = $cmd . ' -f ' . $value->format;
             $cmd = $cmd . ' ' . $value->dst;
         }
-
-        echo $cmd;
 
         $cmdLine = $cmdLine . $input->src . ' ' . $cmd;
         return $cmdLine;
